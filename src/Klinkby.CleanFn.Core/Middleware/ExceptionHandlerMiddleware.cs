@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Klinkby.CleanFn.Core.Extensions;
+using Klinkby.CleanFn.Core.Models;
 using Microsoft.Azure.Functions.Worker.Middleware;
+using Microsoft.Extensions.Options;
 
 namespace Klinkby.CleanFn.Core.Middleware;
 
@@ -12,6 +14,13 @@ namespace Klinkby.CleanFn.Core.Middleware;
 // ReSharper disable once ClassNeverInstantiated.Global
 internal class ExceptionHandlerMiddleware : IFunctionsWorkerMiddleware
 {
+    private readonly IOptions<ExceptionHandlerOptions> _options;
+
+    public ExceptionHandlerMiddleware(IOptions<ExceptionHandlerOptions> options)
+    {
+        _options = options;
+    }
+
     public async Task Invoke(FunctionContext context, FunctionExecutionDelegate next)
     {
         try
@@ -25,33 +34,15 @@ internal class ExceptionHandlerMiddleware : IFunctionsWorkerMiddleware
                 throw ex.InnerException;
             }
         }
-        catch (ValidationException ex) // TODO Get from Options
+        catch (Exception ex) 
         {
-            await context.WriteProblemDetails(HttpStatusCode.BadRequest, ex); // 400
-        }
-        catch (ArgumentException ex)
-        {
-            await context.WriteProblemDetails(HttpStatusCode.BadRequest, ex); // 400
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            await context.WriteProblemDetails(HttpStatusCode.Unauthorized, ex); // 401
-        }
-        catch (InvalidOperationException ex)
-        {
-            await context.WriteProblemDetails(HttpStatusCode.Forbidden, ex); // 403
-        }
-        catch (HttpRequestException ex)
-        {
-            await context.WriteProblemDetails(HttpStatusCode.ServiceUnavailable, ex); // 503
-        }
-        catch (TimeoutException ex)
-        {
-            await context.WriteProblemDetails(HttpStatusCode.GatewayTimeout, ex); // 504
-        }
-        catch (Exception ex) // unhandled exception
-        {
-            await context.WriteProblemDetails(HttpStatusCode.InternalServerError, ex); // 500
+            var statusCode = _options.Value
+                .Map
+                .Where(map => map.ExceptionType.IsInstanceOfType(ex))
+                .Select(map => map.StatusCode)
+                .DefaultIfEmpty(HttpStatusCode.InternalServerError)
+                .First();
+            await context.WriteProblemDetails(statusCode, ex);
         }
     }
 }

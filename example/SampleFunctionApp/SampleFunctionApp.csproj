@@ -5,7 +5,7 @@
         <PublishRelease>true</PublishRelease>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Klinkby.CleanFn.Core" Version="1.0.0"/>
+        <PackageReference Include="Klinkby.CleanFn.Core" Version="1.1.0"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.21.0"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.1.0"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.17.0"/>
@@ -32,6 +32,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SampleDomainLogic\SampleDomainLogic.csproj"/>
+        <ProjectReference Include="..\..\src\Klinkby.CleanFn.Core\Klinkby.CleanFn.Core.csproj" />
     </ItemGroup>
 </Project>

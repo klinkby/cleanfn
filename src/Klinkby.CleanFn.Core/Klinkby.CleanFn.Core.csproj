@@ -8,7 +8,7 @@
     <Title>Klinkby.CleanFn.Core</Title>
     <Description>Configure Azure Functions efficiently for REST API decoupled from application logic.</Description>
     <PackageId>Klinkby.CleanFn.Core</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

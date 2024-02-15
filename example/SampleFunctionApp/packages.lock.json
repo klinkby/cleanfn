@@ -2,19 +2,6 @@
   "version": 1,
   "dependencies": {
     "net8.0": {
-      "Klinkby.CleanFn.Core": {
-        "type": "Direct",
-        "requested": "[1.0.0, )",
-        "resolved": "1.0.0",
-        "contentHash": "fdVH559MwjIYjXuqO4DAlLAeBnYnYz3nKm9e+LTgThumpnGbB0EvcL7iQYuG16OiYeE7n6xZNifLCKEAMiAFSg==",
-        "dependencies": {
-          "Klinkby.CleanFn.Abstractions": "1.0.0",
-          "Microsoft.Azure.Functions.Worker.Core": "1.17.0",
-          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.2",
-          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
-          "Scrutor": "4.2.2"
-        }
-      },
       "Microsoft.Azure.Functions.Worker": {
         "type": "Direct",
         "requested": "[1.21.0, )",
@@ -572,11 +559,14 @@
         "resolved": "4.5.4",
         "contentHash": "zteT+G8xuGu6mS+mzDzYXbzS7rd3K6Fjb9RiZlYlJPam2/hU7JCBZBVEcywNuR+oZ1ncTvc/cq0faRr3P01OVg=="
       },
-      "sampledomainlogic": {
+      "klinkby.cleanfn.core": {
         "type": "Project",
         "dependencies": {
           "Klinkby.CleanFn.Abstractions": "[1.0.0, )",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "[8.0.0, )"
+          "Microsoft.Azure.Functions.Worker.Core": "[1.17.0, )",
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "[8.0.2, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[8.0.0, )",
+          "Scrutor": "[4.2.2, )"
         }
       }
     }

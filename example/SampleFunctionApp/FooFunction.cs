@@ -1,5 +1,3 @@
-using SampleDomainLogic;
-
 namespace Klinkby.CleanFn;
 
 /// <summary>

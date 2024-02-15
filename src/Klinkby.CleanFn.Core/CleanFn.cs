@@ -43,7 +43,7 @@ public static class CleanFn
     /// </summary>
     /// <param name="services"></param>
     /// <typeparam name="T"></typeparam>
-    public static void AddServicesFromAssemblyOf<T>(IServiceCollection services)
+    public static void AddServicesFromAssemblyOf<T>(this IServiceCollection services)
     {
         services.AddHealthChecks();
         services.AddSingleton<IMediator, DataAnnotationsValidatorMediator>();
