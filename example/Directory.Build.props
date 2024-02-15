@@ -1,0 +1,11 @@
+<Project>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <WarningsAsErrors>Nullable</WarningsAsErrors>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Configurations>Debug;Release</Configurations>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <NeutralLanguage>en</NeutralLanguage>
+    </PropertyGroup>
+</Project>
