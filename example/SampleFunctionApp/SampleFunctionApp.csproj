@@ -32,6 +32,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Klinkby.CleanFn.Core\Klinkby.CleanFn.Core.csproj" />
+        <ProjectReference Include="..\SampleDomainLogic\SampleDomainLogic.csproj"/>
     </ItemGroup>
 </Project>
