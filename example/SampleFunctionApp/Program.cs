@@ -11,6 +11,7 @@ var host = new HostBuilder()
         services.AddServicesFromAssemblyOf<DataContractSerializer>();
         services.AddOptions<ExceptionHandlerOptions>()
             .Configure(options => options
+                .WithMap<FunctionInputConverterException>(HttpStatusCode.BadRequest)
                 .WithMap<ValidationException>(HttpStatusCode.BadRequest)
                 .WithMap<ArgumentException>(HttpStatusCode.BadRequest)
                 .WithMap<UnauthorizedAccessException>(HttpStatusCode.Unauthorized)
