@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <Title>Klinkby.CleanFn.Core</Title>
+    <Description>Configure Azure Functions efficiently for REST API decoupled from application logic.</Description>
+    <PackageId>Klinkby.CleanFn.Core</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Klinkby.CleanFn.Abstractions" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Core" Version="1.17.0" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.2"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Scrutor" Version="4.2.2"/>
+  </ItemGroup>
+  
+</Project>
