@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Klinkby.CleanFn.Abstractions;
 
-namespace SampleDomainLogic;
+namespace SampleDomainLogic.Foo;
 
 public class FooGetRequest : IRequest<FooGetResponse>
 {

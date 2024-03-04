@@ -1,4 +1,4 @@
-﻿namespace SampleDomainLogic;
+﻿namespace SampleDomainLogic.Foo;
 
 public record FooGetResponse
 {
