@@ -29,13 +29,5 @@ jobs:
     - name: Pack
       run: dotnet pack --configuration Release --no-build --output nupkgs
 
-    - name: Push
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-        source-url: https://api.nuget.org/v3/index.json
-      env:
-        NUGET_API_KEY: ${{secrets.NUGET_API_KEY}}
-
     - name: Push NuGet packages
       run: dotnet nuget push ./nupkgs/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
