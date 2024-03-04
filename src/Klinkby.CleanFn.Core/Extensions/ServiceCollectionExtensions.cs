@@ -1,21 +1,32 @@
-﻿using System.Reflection;
-using Klinkby.CleanFn.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using System.ComponentModel.DataAnnotations;
+using Klinkby.CleanFn.Core;
 
-namespace Klinkby.CleanFn.Core.Extensions;
+namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 ///     Static methods for registering services.
 /// </summary>
-internal static class ServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
-    public static void AddRequestHandlers(this IServiceCollection services, params Assembly[] assemblies)
+    /// <summary>
+    ///     Add basic non-validating mediator to the service collection.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
+    /// <returns>The <see cref="IServiceCollection" /></returns>
+    public static IServiceCollection AddBasicMediator(this IServiceCollection services)
     {
-        // Use https://github.com/khellang/Scrutor to scan assemblies for IRequestHandlerBase implementations
-        services.Scan(selector => selector
-            .FromAssemblies(assemblies)
-            .AddClasses(c => c.AssignableTo(typeof(IRequestHandlerBase)))
-            .AsImplementedInterfaces()
-            .WithTransientLifetime());
+        services.AddSingleton<IMediator, Mediator>();
+        return services;
+    }
+
+    /// <summary>
+    ///     Add a mediator that use declarative data annotations <see cref="Validator" /> to assert the requests.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
+    /// <returns>The <see cref="IServiceCollection" /></returns>
+    public static IServiceCollection AddDataAnnotationsValidatingMediator(this IServiceCollection services)
+    {
+        services.AddSingleton<IMediator, DataAnnotationsValidatorMediator>();
+        return services;
     }
 }

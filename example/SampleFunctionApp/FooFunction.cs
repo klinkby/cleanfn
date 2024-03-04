@@ -1,4 +1,6 @@
-namespace Klinkby.CleanFn;
+using SampleDomainLogic.Foo;
+
+namespace SampleFunctionApp;
 
 /// <summary>
 ///     Sample implementation of a HTTP-triggered function that use a mediator to decouple

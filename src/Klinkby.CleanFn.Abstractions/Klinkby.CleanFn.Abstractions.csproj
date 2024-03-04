@@ -1,14 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>12</LangVersion>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>12</LangVersion>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <Title>Klinkby.CleanFn.Abstractions</Title>
-        <PackageId>Klinkby.CleanFn.Abstractions</PackageId>
-        <PackageVersion>1.0.0</PackageVersion>
-        <Description>Abstractions for decoupling application logic from Function service root.</Description>
-    </PropertyGroup>
+  <PropertyGroup>
+    <Title>Klinkby.CleanFn.Abstractions</Title>
+    <PackageId>Klinkby.CleanFn.Abstractions</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Description>Abstractions for decoupling application logic from Function service root.</Description>
+  </PropertyGroup>
 </Project>

@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Klinkby.CleanFn.Core.Middleware;
+﻿using Klinkby.CleanFn.Core.Middleware;
 using Microsoft.Extensions.Logging;
 using ProblemDetails = Klinkby.CleanFn.Core.Models.ProblemDetails;
 
@@ -16,12 +15,20 @@ internal static partial class FunctionContextExtensions
         Exception ex)
     {
         var statusCode = (int)httpStatusCode;
-        if (statusCode < 400) return;
+        if (statusCode < 400)
+        {
+            return;
+        }
+
         var logger = context.GetLogger<ExceptionHandlerMiddleware>();
         if (statusCode >= 500)
+        {
             LogResponseError(logger, statusCode, ex.Message);
+        }
         else
+        {
             LogResponseWarning(logger, statusCode, ex.Message);
+        }
 
         var cancellationToken = context.CancellationToken;
         var req = await context.GetHttpRequestDataAsync();

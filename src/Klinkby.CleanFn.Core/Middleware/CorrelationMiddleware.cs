@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Microsoft.Azure.Functions.Worker.Http;
+﻿using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Extensions.Logging;
 
@@ -33,16 +32,26 @@ internal partial class CorrelationMiddleware(ILogger<CorrelationMiddleware> logg
             var result = context.GetInvocationResult();
             if (result.Value is not HttpResponseData res)
             {
-                res = request.CreateResponse();
-                if (null == result.Value)
-                    res.StatusCode = HttpStatusCode.NoContent;
-                else
-                    await res.WriteAsJsonAsync(result.Value, cancellationToken);
-                result.Value = res;
+                result.Value = res = await WriteResponse(request, result, cancellationToken);
             }
 
             res.Headers.Add(CorrelationIdHeader, correlationId);
         }
+    }
+
+    private static async ValueTask<HttpResponseData> WriteResponse(HttpRequestData request, InvocationResult result,
+        CancellationToken cancellationToken)
+    {
+        var res = request.CreateResponse();
+        if (null == result.Value)
+        {
+            res.StatusCode = HttpStatusCode.NoContent;
+        }
+        else
+        {
+            await res.WriteAsJsonAsync(result.Value, cancellationToken);
+        }
+        return res;
     }
 
     [LoggerMessage(LogLevel.Information, CorrelationIdHeader + " {CorrelationId}")]

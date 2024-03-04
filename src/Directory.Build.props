@@ -1,27 +1,27 @@
 <Project>
-    <PropertyGroup>
-        <Nullable>enable</Nullable>
-        <WarningsAsErrors>Nullable</WarningsAsErrors>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Configurations>Debug;Release</Configurations>
-        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-        <NeutralLanguage>en</NeutralLanguage>
-    </PropertyGroup>
-    
-    <PropertyGroup>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <Authors>@klinkby</Authors>
-        <RepositoryUrl>https://github.com/klinkby/cleanfn</RepositoryUrl>
-        <PackageIcon>cleanfn.png</PackageIcon>
-        <PackageTags>Azure Functions Starter Kit Mediator Simple Practices</PackageTags>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageProjectUrl>https://github.com/klinkby/cleanfn</PackageProjectUrl>
-    </PropertyGroup>
-    
-    <ItemGroup>
-        <None Include="../../LICENSE" Pack="true" PackagePath=""/>
-        <None Include="../../README.md" Pack="true" PackagePath=""/>
-        <None Include="../../cleanfn.png" Pack="true" PackagePath=""/>
-    </ItemGroup>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>Nullable</WarningsAsErrors>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Configurations>Debug;Release</Configurations>
+    <NeutralLanguage>en</NeutralLanguage>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Authors>@klinkby</Authors>
+    <RepositoryUrl>https://github.com/klinkby/cleanfn</RepositoryUrl>
+    <PackageIcon>cleanfn.png</PackageIcon>
+    <PackageTags>Azure Functions Starter Kit Mediator Simple Practices</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/klinkby/cleanfn</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../LICENSE" Pack="true" PackagePath=""/>
+    <None Include="../../README.md" Pack="true" PackagePath=""/>
+    <None Include="../../cleanfn.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
 </Project>

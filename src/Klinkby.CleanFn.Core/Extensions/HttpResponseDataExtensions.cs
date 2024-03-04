@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Net;
 using Klinkby.CleanFn.Core.Models;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -12,7 +11,7 @@ namespace Klinkby.CleanFn.Core.Extensions;
 public static class HttpResponseDataExtensions
 {
     /// <summary>
-    /// Write a <see href="https://inadarei.github.io/rfc-healthcheck/" /> to response
+    ///     Write a <see href="https://inadarei.github.io/rfc-healthcheck/" /> to response
     /// </summary>
     /// <param name="health">AspNet health report</param>
     /// <param name="res">Target response</param>

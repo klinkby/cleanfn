@@ -5,10 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 var host = new HostBuilder()
-    .ConfigureFunctionsWorkerDefaults(CleanFn.ConfigureFunctionWorker<DataContractSerializer>)
+    .ConfigureFunctionsWorkerDefaults(CleanFn.Configure<DataContractSerializer>)
     .ConfigureServices(services =>
     {
-        services.AddServicesFromAssemblyOf<DataContractSerializer>();
+        // configure exception handling
         services.AddOptions<ExceptionHandlerOptions>()
             .Configure(options => options
                 .WithMap<FunctionInputConverterException>(HttpStatusCode.BadRequest)
@@ -16,10 +16,18 @@ var host = new HostBuilder()
                 .WithMap<ArgumentException>(HttpStatusCode.BadRequest)
                 .WithMap<UnauthorizedAccessException>(HttpStatusCode.Unauthorized)
                 .WithMap<InvalidOperationException>(HttpStatusCode.Forbidden)
-                .WithMap<HttpRequestException>(HttpStatusCode.ServiceUnavailable)
-                .WithMap<HttpRequestException>(HttpStatusCode.ServiceUnavailable)
+                .WithMap<HttpRequestException>(HttpStatusCode.BadGateway)
                 .WithMap<TimeoutException>(HttpStatusCode.GatewayTimeout)
-                );
+            );
+
+        // add application logic
+        services.AddRequestHandlers();
+
+        // add validating mediator
+        services.AddDataAnnotationsValidatingMediator();
+
+        // support extensible health checks
+        services.AddHealthChecks();
     })
     .Build();
 await host.RunAsync();

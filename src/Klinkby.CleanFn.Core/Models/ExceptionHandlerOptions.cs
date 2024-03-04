@@ -1,4 +1,3 @@
-using System.Net;
 using Klinkby.CleanFn.Core.Middleware;
 
 namespace Klinkby.CleanFn.Core.Models;

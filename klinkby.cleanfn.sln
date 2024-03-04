@@ -26,6 +26,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleDomainLogic", "exampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleFunctionApp", "example\SampleFunctionApp\SampleFunctionApp.csproj", "{99A7E7BF-5CC7-4C4F-AE9E-9065503DF1D1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F1EBB0DB-3897-4C07-AD3F-F55C5EA77724}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Klinkby.CleanFn.Core.Tests", "tests\Klinkby.CleanFn.Core.Tests\Klinkby.CleanFn.Core.Tests.csproj", "{273F62F9-0BD1-4478-852E-0F51D6274498}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,9 +55,14 @@ Global
 		{99A7E7BF-5CC7-4C4F-AE9E-9065503DF1D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99A7E7BF-5CC7-4C4F-AE9E-9065503DF1D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99A7E7BF-5CC7-4C4F-AE9E-9065503DF1D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{273F62F9-0BD1-4478-852E-0F51D6274498}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{273F62F9-0BD1-4478-852E-0F51D6274498}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{273F62F9-0BD1-4478-852E-0F51D6274498}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{273F62F9-0BD1-4478-852E-0F51D6274498}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B227D4EE-670C-4AD7-8C88-449886E20F97} = {968C2143-8F5C-4C97-9A08-A1D27434BBB5}
 		{99A7E7BF-5CC7-4C4F-AE9E-9065503DF1D1} = {968C2143-8F5C-4C97-9A08-A1D27434BBB5}
+		{273F62F9-0BD1-4478-852E-0F51D6274498} = {F1EBB0DB-3897-4C07-AD3F-F55C5EA77724}
 	EndGlobalSection
 EndGlobal

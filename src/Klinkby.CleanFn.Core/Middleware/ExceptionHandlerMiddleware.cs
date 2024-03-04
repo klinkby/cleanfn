@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Net;
-using Klinkby.CleanFn.Core.Extensions;
+﻿using Klinkby.CleanFn.Core.Extensions;
 using Klinkby.CleanFn.Core.Models;
 using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Extensions.Options;
@@ -34,7 +32,7 @@ internal class ExceptionHandlerMiddleware : IFunctionsWorkerMiddleware
                 throw ex.InnerException;
             }
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             var statusCode = _options.Value
                 .Map

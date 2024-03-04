@@ -1,7 +1,7 @@
 ﻿using Klinkby.CleanFn.Core.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace Klinkby.CleanFn;
+namespace SampleFunctionApp;
 
 /// <summary>
 ///     The Azure Function for observing service health.

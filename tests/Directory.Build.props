@@ -7,6 +7,5 @@
     <Configurations>Debug;Release</Configurations>
     <NeutralLanguage>en</NeutralLanguage>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
 </Project>

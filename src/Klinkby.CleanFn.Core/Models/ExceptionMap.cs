@@ -1,5 +1,3 @@
-using System.Net;
-
 namespace Klinkby.CleanFn.Core.Models;
 
 /// <summary>
@@ -17,5 +15,7 @@ public record ExceptionMap(Type ExceptionType, HttpStatusCode StatusCode)
     /// <typeparam name="T">Type of exception</typeparam>
     /// <returns>A new <see cref="ExceptionMap" /></returns>
     public static ExceptionMap From<T>(HttpStatusCode statusCode) where T : Exception
-        => new(typeof(T), statusCode);
+    {
+        return new ExceptionMap(typeof(T), statusCode);
+    }
 }
