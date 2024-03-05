@@ -35,7 +35,20 @@ internal partial class CorrelationMiddleware(ILogger<CorrelationMiddleware> logg
                 result.Value = res = await WriteResponse(request, result, cancellationToken);
             }
 
-            res.Headers.Add(CorrelationIdHeader, correlationId);
+            var headers = res.Headers;
+            headers.Add(CorrelationIdHeader, correlationId);
+            AddSecurityHeaders(headers, secure: Uri.UriSchemeHttps == request.Url.Scheme);
+        }
+    }
+
+    private static void AddSecurityHeaders(HttpHeadersCollection headers, bool secure)
+    {
+        // as per https://observatory.mozilla.org/faq/ recommended settings
+        headers.Add("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'");
+        headers.Add("X-Content-Type-Options", "nosniff");
+        if (secure)
+        {
+            headers.Add("Strict-Transport-Security", "max-age=63072000");
         }
     }
 
