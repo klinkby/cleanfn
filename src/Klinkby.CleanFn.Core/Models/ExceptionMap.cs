@@ -5,7 +5,7 @@ namespace Klinkby.CleanFn.Core.Models;
 /// </summary>
 /// <param name="ExceptionType">Type of exception</param>
 /// <param name="StatusCode">HTTP status code</param>
-/// <seealso cref="ExceptionHandlerOptions" />
+/// <seealso cref="CleanFnOptions" />
 public record ExceptionMap(Type ExceptionType, HttpStatusCode StatusCode)
 {
     /// <summary>

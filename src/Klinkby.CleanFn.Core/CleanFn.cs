@@ -1,10 +1,12 @@
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using Azure.Core.Serialization;
+using Klinkby.CleanFn.Core.HttpClientFilters;
 using Klinkby.CleanFn.Core.Middleware;
 using Klinkby.CleanFn.Core.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Http;
 
 namespace Klinkby.CleanFn.Core;
 
@@ -21,10 +23,10 @@ public static class CleanFn
     public static void Configure<TSerializer>(HostBuilderContext _, IFunctionsWorkerApplicationBuilder builder)
         where TSerializer : IJsonTypeInfoResolver, new()
     {
-        builder.UseWhen<ExceptionHandlerMiddleware>(IsHttpTrigger);
-        builder.UseWhen<CorrelationMiddleware>(IsHttpTrigger);
-
+        builder.UseWhen<CleanFnMiddleware>(IsHttpTrigger);
         var services = builder.Services;
+        services.AddScoped<ScopedRequestItemsAccessor>();
+        services.AddScoped<IHttpMessageHandlerBuilderFilter, AddCorrelationHttpMessageHandlerBuilderFilter>();
         services.Configure<WorkerOptions>(options =>
             // require serializer source generation
             options.Serializer = new JsonObjectSerializer(

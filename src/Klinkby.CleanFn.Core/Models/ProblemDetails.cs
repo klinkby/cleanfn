@@ -6,7 +6,7 @@ namespace Klinkby.CleanFn.Core.Models;
 /// <summary>
 ///     Data contract for responding problems RFC7807-compliant.
 /// </summary>
-/// <seealso cref="ExceptionHandlerMiddleware" />
+/// <seealso cref="ExceptionHandlerInterceptor" />
 /// <seealso href="https://www.rfc-editor.org/rfc/rfc7807" />
 internal partial record ProblemDetails(string Title, string Detail, int Status, string Type)
 {
