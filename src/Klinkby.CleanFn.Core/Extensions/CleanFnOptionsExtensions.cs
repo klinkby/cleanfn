@@ -1,4 +1,6 @@
-namespace Klinkby.CleanFn.Core.Models;
+using Klinkby.CleanFn.Core.Models;
+
+namespace Klinkby.CleanFn.Core.Extensions;
 
 /// <summary>
 ///     Static methods relating to <see cref="CleanFnOptions" />.

@@ -11,13 +11,16 @@ namespace Klinkby.CleanFn.Core.Middleware;
 /// </summary>
 /// <seealso href="https://microsoft.github.io/code-with-engineering-playbook/observability/correlation-id/" />
 // ReSharper disable once ClassNeverInstantiated.Global
-internal class CleanFnMiddleware(ILogger<CleanFnMiddleware> logger, IOptions<CleanFnOptions> options, IServiceProvider services)
+internal class CleanFnMiddleware(
+    ILogger<CleanFnMiddleware> logger,
+    IOptions<CleanFnOptions> options,
+    IServiceProvider services)
     : IFunctionsWorkerMiddleware
 {
     private readonly IFunctionsWorkerInterceptor[] _interceptors =
     [
         new CorrelationInterceptor(logger, services),
-        new SecurityHeadersInterceptor(logger, options),
+        new SecurityHeadersInterceptor(),
         new ExceptionHandlerInterceptor(logger, options)
     ];
 
@@ -46,7 +49,7 @@ internal class CleanFnMiddleware(ILogger<CleanFnMiddleware> logger, IOptions<Cle
             }
             catch (AggregateException ex) when (ex.InnerException != null)
             {
-                throw ex.InnerException;
+                return ex.InnerException;
             }
         }
         catch (Exception ex)
@@ -85,7 +88,15 @@ internal class CleanFnMiddleware(ILogger<CleanFnMiddleware> logger, IOptions<Cle
 
         if (result.Value is not HttpResponseData response)
         {
-            result.Value = response = await WriteResponse(request, result, cancellationToken);
+            if (result.Value is HealthResponse health)
+            {
+                result.Value = response = request.CreateResponse();
+                await health.WriteTo(response, cancellationToken);
+            }
+            else
+            {
+                result.Value = response = await WriteResponse(request, result, cancellationToken);
+            }
         }
 
         foreach (var interceptor in _interceptors)

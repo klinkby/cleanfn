@@ -1,7 +1,4 @@
-﻿using Klinkby.CleanFn.Core.Models;
-using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Azure.Functions.Worker.Http;
 
 namespace Klinkby.CleanFn.Core.Middleware;
 
@@ -9,49 +6,22 @@ namespace Klinkby.CleanFn.Core.Middleware;
 ///     Interceptor for securing responses.
 /// </summary>
 /// <remarks>Follows recommendation from <see href="https://observatory.mozilla.org/faq/" />.</remarks>
-internal partial class SecurityHeadersInterceptor(ILogger logger, IOptions<CleanFnOptions> options)
-    : IFunctionsWorkerInterceptor
+internal class SecurityHeadersInterceptor : IFunctionsWorkerInterceptor
 {
     public ValueTask<bool> OnExecutingAsync(FunctionContext context, HttpRequestData request,
         CancellationToken cancellationToken)
-
     {
-        var continuePipeline = IsSecure(request) || !options.Value.UpgradeInsecureRequestsToPort.HasValue;
-        if (!continuePipeline)
-        {
-            LogUpgrade(logger);
-        }
-
-        return ValueTask.FromResult(continuePipeline);
+        return ValueTask.FromResult(true);
     }
 
     public ValueTask OnExecutedAsync(FunctionContext context, HttpRequestData request, HttpResponseData response,
         Exception? pipelineException, CancellationToken cancellationToken)
     {
         var headers = response.Headers;
-        headers.TryAddWithoutValidation("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'");
-        headers.TryAddWithoutValidation("X-Content-Type-Options", "nosniff");
-
-        if (IsSecure(request))
-        {
-            headers.TryAddWithoutValidation("Strict-Transport-Security", "max-age=63072000");
-        }
-        else if (options.Value.UpgradeInsecureRequestsToPort is { } port)
-        {
-            response.StatusCode = HttpStatusCode.TemporaryRedirect;
-            headers.TryAddWithoutValidation("Vary", "Upgrade-Insecure-Requests");
-            headers.TryAddWithoutValidation("Location",
-                new UriBuilder(request.Url) { Scheme = Uri.UriSchemeHttps, Port = port }.Uri.ToString());
-        }
-
+        headers.TryAddWithoutValidation(KnownHeader.ContentSecurityPolicy,
+            "default-src 'none'; frame-ancestors 'none'");
+        headers.TryAddWithoutValidation(KnownHeader.XContentTypeOptions, "nosniff");
+        headers.TryAddWithoutValidation(KnownHeader.StrictTransportSecurity, "max-age=63072000");
         return ValueTask.CompletedTask;
     }
-
-    private static bool IsSecure(HttpRequestData request)
-    {
-        return Uri.UriSchemeHttps == request.Url.Scheme;
-    }
-
-    [LoggerMessage(LogLevel.Information, "Skip invocation to upgrade insecure request")]
-    static partial void LogUpgrade(ILogger logger);
 }

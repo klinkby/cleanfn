@@ -12,15 +12,13 @@ namespace Klinkby.CleanFn.Core.Middleware;
 internal partial class CorrelationInterceptor(ILogger logger, IServiceProvider services)
     : IFunctionsWorkerInterceptor
 {
-    internal const string CorrelationIdHeader = "X-Correlation-Id";
-
     public ValueTask<bool> OnExecutingAsync(FunctionContext context, HttpRequestData request,
         CancellationToken cancellationToken)
     {
-        var correlationId = request.Headers.TryGetValues(CorrelationIdHeader, out var requestCorrelationId)
+        var correlationId = request.Headers.TryGetValues(KnownHeader.XCorrelationId, out var requestCorrelationId)
             ? requestCorrelationId.First()
             : context.InvocationId;
-        context.Items.Add(CorrelationIdHeader, correlationId);
+        context.Items.TryAdd(KnownHeader.XCorrelationId, correlationId);
         services.GetRequiredService<ScopedRequestItemsAccessor>().RequestItems = context.Items;
         LogCorrelationId(logger, correlationId);
         return ValueTask.FromResult(true);
@@ -30,10 +28,11 @@ internal partial class CorrelationInterceptor(ILogger logger, IServiceProvider s
         Exception? pipelineException, CancellationToken cancellationToken)
     {
         var headers = response.Headers;
-        headers.Add(CorrelationIdHeader, context.Items[CorrelationIdHeader] as string);
+        headers.TryAddWithoutValidation(KnownHeader.XCorrelationId,
+            context.Items[KnownHeader.XCorrelationId] as string);
         return ValueTask.CompletedTask;
     }
 
-    [LoggerMessage(LogLevel.Information, CorrelationIdHeader + " {CorrelationId}")]
+    [LoggerMessage(LogLevel.Information, KnownHeader.XCorrelationId + " {CorrelationId}")]
     static partial void LogCorrelationId(ILogger logger, string correlationId);
 }

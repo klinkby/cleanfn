@@ -10,8 +10,6 @@ namespace Klinkby.CleanFn.Core.Models;
 /// <seealso href="https://www.rfc-editor.org/rfc/rfc7807" />
 internal partial record ProblemDetails(string Title, string Detail, int Status, string Type)
 {
-    public const string ContentType = "application/problem+json";
-
     public static ProblemDetails FromException(Exception ex, int statusCode)
     {
         var matches = PascalCaseWordsRegex().Matches(ex.GetType().Name);

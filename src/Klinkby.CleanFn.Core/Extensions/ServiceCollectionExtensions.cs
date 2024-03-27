@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Klinkby.CleanFn.Core;
 
+// ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
@@ -27,6 +28,13 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddDataAnnotationsValidatingMediator(this IServiceCollection services)
     {
         services.AddSingleton<IMediator, DataAnnotationsValidatorMediator>();
+        return services;
+    }
+
+    internal static IServiceCollection AddApplicationInsights(this IServiceCollection services)
+    {
+        services.AddApplicationInsightsTelemetryWorkerService();
+        services.ConfigureFunctionsApplicationInsights();
         return services;
     }
 }

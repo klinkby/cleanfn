@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- enable caching of package dependencies -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- strict nullable checking -->
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>Nullable</WarningsAsErrors>
+    <!-- check both direct and transitive dependencies -->
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <!-- enable warnings for moderate vulnerabilities -->
+    <NuGetAuditLevel>moderate</NuGetAuditLevel>
+    <!-- enable errors for high, critical vulnerabilities -->
+    <WarningsAsErrors>NU1903;NU1904</WarningsAsErrors>
+  </PropertyGroup>
+</Project>

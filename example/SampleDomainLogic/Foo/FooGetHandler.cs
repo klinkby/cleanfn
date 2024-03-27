@@ -11,10 +11,7 @@ internal class FooGetHandler(IHttpClientFactory client) : IRequestHandler<FooGet
         var res = await httpClient.GetAsync("https://httpbin.org/headers", cancellationToken);
         res.EnsureSuccessStatusCode();
         var echoResponse = await res.Content.ReadFromJsonAsync<HttpBinHeaders>(cancellationToken);
-        return new FooGetResponse
-        {
-            Name = $"Got a {request.Id} {echoResponse!.Headers["X-Correlation-Id"]}"
-        };
+        return new FooGetResponse { Name = $"Got a {request.Id} {echoResponse!.Headers["X-Correlation-Id"]}" };
     }
 }
 

@@ -14,12 +14,11 @@ internal class AddCorrelationHttpMessageHandlerBuilderFilter(ScopedRequestItemsA
     {
         return builder =>
         {
-            var items = itemsAccessor?.RequestItems;
-            if (null != items 
-                && items.TryGetValue(CorrelationInterceptor.CorrelationIdHeader, out var value))
+            var correlationId = itemsAccessor?.CorrelationId;
+            if (null != correlationId)
             {
                 builder.AdditionalHandlers.Add(
-                    new AddRequestHeaderHandler(CorrelationInterceptor.CorrelationIdHeader, value as string));
+                    new AddRequestHeaderHandler(KnownHeader.XCorrelationId, correlationId));
             }
 
             next(builder);
@@ -27,7 +26,7 @@ internal class AddCorrelationHttpMessageHandlerBuilderFilter(ScopedRequestItemsA
     }
 
     /// <summary>
-    /// Delegating handler for setting a header on the HTTP request
+    ///     Delegating handler for setting a header on the HTTP request
     /// </summary>
     private sealed class AddRequestHeaderHandler(string headerName, string? value) : DelegatingHandler
     {

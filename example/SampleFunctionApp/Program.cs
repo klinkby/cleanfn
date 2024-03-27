@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using Klinkby.CleanFn.Core.Extensions;
+using Klinkby.CleanFn.Core.HealthChecks;
 using Klinkby.CleanFn.Core.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Http;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(CleanFn.Configure<DataContractSerializer>)
@@ -14,12 +15,11 @@ var host = new HostBuilder()
 
         // add http client factory (move to infrastructure)  
         services.AddHttpClient();
-        
+
         // configure exception handling
         services.AddOptions<CleanFnOptions>()
             .Configure(options =>
             {
-               // options.UpgradeInsecureRequestsToPort = 7072;
                 options.ExceptionMap
                     .WithMap<FunctionInputConverterException>(HttpStatusCode.BadRequest)
                     .WithMap<ValidationException>(HttpStatusCode.BadRequest)
@@ -34,7 +34,9 @@ var host = new HostBuilder()
         services.AddDataAnnotationsValidatingMediator();
 
         // support extensible health checks
-        services.AddHealthChecks();
+        services.AddHealthChecks()          // support liveliness monitoring
+            .AddCheck<MemoryHealthCheck>(MemoryHealthCheck.Name)
+            .AddCheck<SuccessHealthCheck>(SuccessHealthCheck.Name);
     })
     .Build();
 await host.RunAsync();

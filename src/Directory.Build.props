@@ -1,12 +1,5 @@
 <Project>
-  <PropertyGroup>
-    <Nullable>enable</Nullable>
-    <WarningsAsErrors>Nullable</WarningsAsErrors>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Configurations>Debug;Release</Configurations>
-    <NeutralLanguage>en</NeutralLanguage>
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-  </PropertyGroup>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))"/>
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

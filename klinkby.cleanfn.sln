@@ -8,19 +8,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9B686F33-9D96-45FA-A0DE-2B393F8B6C75}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		src\Directory.Build.props = Directory.Build.props
 		src\Directory.Build.targets = Directory.Build.targets
 		global.json = global.json
-		src\Directory.Build.props = src\Directory.Build.props
 		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		src\Directory.Build.props = src\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Klinkby.CleanFn.Core", "src\Klinkby.CleanFn.Core\Klinkby.CleanFn.Core.csproj", "{E52E200D-0A3C-4D2D-BAFA-3BE7668331B5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{968C2143-8F5C-4C97-9A08-A1D27434BBB5}"
-	ProjectSection(SolutionItems) = preProject
-		example\Directory.Build.props = example\Directory.Build.props
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleDomainLogic", "example\SampleDomainLogic\SampleDomainLogic.csproj", "{B227D4EE-670C-4AD7-8C88-449886E20F97}"
 EndProject
