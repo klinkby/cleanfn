@@ -1,0 +1,80 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "OpenAPI Document on Azure Functions",
+    "description": "This is the OpenAPI Document on Azure Functions",
+    "version": "1.0.0"
+  },
+  "host": "localhost:7071",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/foo/{id}": {
+      "get": {
+        "tags": [
+          "greeting"
+        ],
+        "summary": "Greetings",
+        "description": "This shows a welcome message.",
+        "operationId": "greeting",
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of FooGetResponse",
+            "schema": {
+              "$ref": "#/definitions/fooGetResponse"
+            }
+          },
+          "400": {
+            "description": "Payload of ProblemDetails",
+            "schema": {
+              "$ref": "#/definitions/problemDetails"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "fooGetResponse": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "problemDetails": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "instance": {
+          "type": "string"
+        },
+        "extensions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}
