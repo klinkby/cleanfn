@@ -1,4 +1,7 @@
-﻿using Klinkby.CleanFn.Core.Extensions;
+﻿using System.Diagnostics;
+using System.Net.Mime;
+using System.Reflection;
+using Klinkby.CleanFn.Core.Extensions;
 
 namespace Klinkby.CleanFn.Core.Functions;
 
@@ -9,10 +12,12 @@ namespace Klinkby.CleanFn.Core.Functions;
 /// <param name="logger"></param>
 public partial class SwaggerFunction(ILogger<SwaggerFunction> logger)
 {
+    private static readonly string BasePath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!);
+
     // ReSharper disable twice InconsistentNaming
     private const string yaml = nameof(yaml);
     private const string json = nameof(json);
-
+    
     /// <summary>
     /// </summary>
     /// <param name="req"></param>
@@ -25,8 +30,9 @@ public partial class SwaggerFunction(ILogger<SwaggerFunction> logger)
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = $"swagger.{{ext:regex({yaml}|{json})}}")]
         HttpRequestData req, string ext, CancellationToken cancellationToken)
     {
-        var filename = $"swagger.{ext}";
-        var contentType = ext.ToLowerInvariant() switch
+        ext = ext.ToLowerInvariant();
+        var filename = Path.Combine(BasePath, $"swagger.{ext}");
+        var contentType = ext switch
         {
             json => KnownContentType.ApplicationJson,
             yaml => KnownContentType.TextYaml,
