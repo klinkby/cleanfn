@@ -1,6 +1,4 @@
-﻿using Klinkby.CleanFn.Abstractions;
-
-namespace Klinkby.CleanFn.Core;
+﻿namespace Klinkby.CleanFn.Core;
 
 /// <summary>
 ///     Define the core mediator for dispatching requests to handlers.

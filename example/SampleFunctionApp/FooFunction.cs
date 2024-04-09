@@ -1,3 +1,6 @@
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using SampleDomainLogic.Foo;
 
 namespace SampleFunctionApp;
@@ -6,10 +9,14 @@ namespace SampleFunctionApp;
 ///     Sample implementation of a HTTP-triggered function that use a mediator to decouple
 ///     request validation and handling.
 /// </summary>
-internal class FooFunction(IMediator mediator)
+public class FooFunction(IMediator mediator)
 {
     private const string Route = "foo";
 
+    [OpenApiOperation("greeting", "greeting", Summary = "Greetings",
+        Description = "This shows a welcome message.")]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(FooGetResponse))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/problem+json", typeof(ProblemDetails))]
     [Function(nameof(FooGetById))]
     public Task<FooGetResponse> FooGetById(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = Route + "/{id}")]

@@ -1,7 +1,4 @@
-﻿using Klinkby.CleanFn.Core.Models;
-using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Azure.Functions.Worker.Middleware;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Extensions.Options;
 
 namespace Klinkby.CleanFn.Core.Middleware;
@@ -12,6 +9,7 @@ namespace Klinkby.CleanFn.Core.Middleware;
 /// <seealso href="https://microsoft.github.io/code-with-engineering-playbook/observability/correlation-id/" />
 // ReSharper disable once ClassNeverInstantiated.Global
 internal class CleanFnMiddleware(
+    SuccessCounter successCounter,
     ILogger<CleanFnMiddleware> logger,
     IOptions<CleanFnOptions> options,
     IServiceProvider services)
@@ -21,7 +19,7 @@ internal class CleanFnMiddleware(
     [
         new CorrelationInterceptor(logger, services),
         new SecurityHeadersInterceptor(),
-        new ExceptionHandlerInterceptor(logger, options)
+        new ExceptionHandlerInterceptor(successCounter, logger, options)
     ];
 
     public async Task Invoke(FunctionContext context, FunctionExecutionDelegate next)
@@ -36,7 +34,7 @@ internal class CleanFnMiddleware(
             pipelineException = await SafeInvokeNext(context, next);
         }
 
-        await AfterInvocation(context, request, cancellationToken, pipelineException);
+        await AfterInvocation(context, request, pipelineException, cancellationToken);
     }
 
     private static async Task<Exception?> SafeInvokeNext(FunctionContext context, FunctionExecutionDelegate next)
@@ -78,7 +76,7 @@ internal class CleanFnMiddleware(
     }
 
     private async Task AfterInvocation(FunctionContext context, HttpRequestData? request,
-        CancellationToken cancellationToken, Exception? pipelineException)
+        Exception? pipelineException, CancellationToken cancellationToken)
     {
         var result = context.GetInvocationResult();
         if (null == request)
@@ -88,15 +86,7 @@ internal class CleanFnMiddleware(
 
         if (result.Value is not HttpResponseData response)
         {
-            if (result.Value is HealthResponse health)
-            {
-                result.Value = response = request.CreateResponse();
-                await health.WriteTo(response, cancellationToken);
-            }
-            else
-            {
-                result.Value = response = await WriteResponse(request, result, cancellationToken);
-            }
+            result.Value = response = await WriteResponse(request, result, cancellationToken);
         }
 
         foreach (var interceptor in _interceptors)

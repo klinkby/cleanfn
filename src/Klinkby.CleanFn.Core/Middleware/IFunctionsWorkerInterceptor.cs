@@ -1,7 +1,11 @@
-﻿using Microsoft.Azure.Functions.Worker.Http;
+﻿namespace Klinkby.CleanFn.Core.Middleware;
 
-namespace Klinkby.CleanFn.Core.Middleware;
-
+/// <summary>
+///     Used by <see cref="CleanFnMiddleware" /> to invoke interceptors before and after function execution.
+/// </summary>
+/// <seealso cref="CorrelationInterceptor" />
+/// <seealso cref="SecurityHeadersInterceptor" />
+/// <seealso cref="ExceptionHandlerInterceptor" />
 internal interface IFunctionsWorkerInterceptor
 {
     ValueTask<bool> OnExecutingAsync(FunctionContext context, HttpRequestData request,

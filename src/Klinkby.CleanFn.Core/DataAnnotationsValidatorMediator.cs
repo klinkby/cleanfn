@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Klinkby.CleanFn.Abstractions;
-using Microsoft.Extensions.Logging;
 
 namespace Klinkby.CleanFn.Core;
 

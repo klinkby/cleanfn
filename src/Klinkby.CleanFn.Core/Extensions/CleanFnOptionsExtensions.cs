@@ -1,5 +1,3 @@
-using Klinkby.CleanFn.Core.Models;
-
 namespace Klinkby.CleanFn.Core.Extensions;
 
 /// <summary>

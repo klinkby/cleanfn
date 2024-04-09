@@ -2,11 +2,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using Azure.Core.Serialization;
-using Klinkby.CleanFn.Abstractions;
-using Klinkby.CleanFn.Core.Handlers;
 using Klinkby.CleanFn.Core.HttpClientFilters;
 using Klinkby.CleanFn.Core.Middleware;
-using Klinkby.CleanFn.Core.Models;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,7 +28,8 @@ public static class CleanFn
         builder.UseWhen<CleanFnMiddleware>(IsHttpTrigger);
 
         var services = builder.Services;
-        services.AddTransient<IRequestHandler<HealthRequest, HealthResponse>, HealthRequestHandler>();
+        services.AddSingleton<SuccessCounter>();
+        services.AddTransient<ISuccessSubscriber>(svc => svc.GetRequiredService<SuccessCounter>());
         services.AddScoped<ScopedRequestItemsAccessor>();
         services.AddScoped<IHttpMessageHandlerBuilderFilter, AddCorrelationHttpMessageHandlerBuilderFilter>();
         services.Configure<WorkerOptions>(options =>

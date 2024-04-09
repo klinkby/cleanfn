@@ -1,6 +1,4 @@
-﻿using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Klinkby.CleanFn.Core.Middleware;
 
@@ -34,5 +32,5 @@ internal partial class CorrelationInterceptor(ILogger logger, IServiceProvider s
     }
 
     [LoggerMessage(LogLevel.Information, KnownHeader.XCorrelationId + " {CorrelationId}")]
-    static partial void LogCorrelationId(ILogger logger, string correlationId);
+    private static partial void LogCorrelationId(ILogger logger, string correlationId);
 }

@@ -1,6 +1,4 @@
-﻿using Klinkby.CleanFn.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Klinkby.CleanFn.Core;
 

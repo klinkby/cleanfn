@@ -1,7 +1,4 @@
 ﻿using Klinkby.CleanFn.Core.Extensions;
-using Klinkby.CleanFn.Core.Models;
-using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Klinkby.CleanFn.Core.Middleware;
@@ -10,7 +7,10 @@ namespace Klinkby.CleanFn.Core.Middleware;
 ///     Middleware for handling exceptions by responding RFC7807-compliant <see cref="Core.Models.ProblemDetails" />.
 /// </summary>
 /// <seealso href="https://www.rfc-editor.org/rfc/rfc7807" />
-internal partial class ExceptionHandlerInterceptor(ILogger logger, IOptions<CleanFnOptions> options)
+internal partial class ExceptionHandlerInterceptor(
+    SuccessCounter successCounter,
+    ILogger logger,
+    IOptions<CleanFnOptions> options)
     : IFunctionsWorkerInterceptor
 {
     public ValueTask<bool> OnExecutingAsync(FunctionContext context, HttpRequestData request,
@@ -24,8 +24,11 @@ internal partial class ExceptionHandlerInterceptor(ILogger logger, IOptions<Clea
     {
         if (null == pipelineException)
         {
+            successCounter.IncrementSuccess();
             return;
         }
+
+        successCounter.IncrementFailure();
 
         var statusCode = options.Value
             .ExceptionMap
@@ -57,7 +60,7 @@ internal partial class ExceptionHandlerInterceptor(ILogger logger, IOptions<Clea
         }
 
         var problemDetails = ProblemDetails.FromException(ex, statusCode);
-        await problemDetails.WriteTo(response, cancellationToken);
+        await response.WriteProblemDetailsResponse(problemDetails, cancellationToken);
     }
 
     [LoggerMessage(LogLevel.Warning, "Response {StatusCode} {Message}")]

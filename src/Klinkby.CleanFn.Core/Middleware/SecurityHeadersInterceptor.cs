@@ -1,6 +1,4 @@
-﻿using Microsoft.Azure.Functions.Worker.Http;
-
-namespace Klinkby.CleanFn.Core.Middleware;
+﻿namespace Klinkby.CleanFn.Core.Middleware;
 
 /// <summary>
 ///     Interceptor for securing responses.

@@ -3,21 +3,56 @@
     <TargetFramework>net8.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <OutputType>Exe</OutputType>
+
     <IsPackable>false</IsPackable>
-    <PublishRelease>true</PublishRelease>
     <Platform>x64</Platform>
     <PublishReadyToRun>true</PublishReadyToRun>
     <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+    <!--    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>-->
   </PropertyGroup>
-  
+
+
+  <!--  <ItemDefinitionGroup>-->
+  <!--    <PostBuildEvent>-->
+  <!--&lt;!&ndash;      <Command>copy $(ProjectDir)$(Configuration)\$(TargetFileName) $(ProjectDir)$(Configuration)\copyOfMyproject.exe</Command>&ndash;&gt;-->
+  <!--      <Command>func.exe host start &#45;&#45;pause-on-error &#45;&#45;dotnet-isolated &#45;&#45;functions RenderSwaggerDocument</Command>-->
+
+  <!--      <Message>Making a copy of myproject.exe</Message>-->
+  <!--    </PostBuildEvent>-->
+  <!--  </ItemDefinitionGroup>-->
+  <!--  -->
+  <PropertyGroup>
+    <FunctionsInDependencies>true</FunctionsInDependencies>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(_IsPublishing)' != 'true'">
+    <!--      <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.OpenApi" Version="1.5.1" />-->
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="swagger.yaml"/>
+    <Content Include="swagger.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!--      <PropertyGroup>-->
+  <!--          <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>-->
+  <!--      </PropertyGroup>-->
+
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.21.0"/>
-    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.17.2" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.17.1"/>
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.1.0"/>
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi.Core" Version="1.5.1"/>
+
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.3"/>
+
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.3"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1"/>
+    <PackageReference Include="System.Net.Http" Version="4.3.4"/>
+    <PackageReference Include="System.Private.Uri" Version="4.3.2"/>
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1"/>
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -31,4 +66,7 @@
     <ProjectReference Include="..\..\src\Klinkby.CleanFn.Core\Klinkby.CleanFn.Core.csproj"/>
     <ProjectReference Include="..\SampleDomainLogic\SampleDomainLogic.csproj"/>
   </ItemGroup>
+  <!--  <Target Name="PostBuild" AfterTargets="PostBuildEvent">-->
+  <!--&lt;!&ndash;    <Exec Command="pushd $(TargetDir)&#xA;func.exe host start &#45;&#45;pause-on-error &#45;&#45;dotnet-isolated &#45;&#45;functions RenderSwaggerDocument &#45;&#45;timeout 30" />&ndash;&gt;-->
+  <!--  </Target>-->
 </Project>

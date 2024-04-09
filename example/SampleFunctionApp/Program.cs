@@ -33,10 +33,11 @@ var host = new HostBuilder()
         // add validating mediator
         services.AddDataAnnotationsValidatingMediator();
 
-        // support extensible health checks
-        services.AddHealthChecks()          // support liveliness monitoring
+        // // support extensible health checks
+        services.AddHealthChecks() // support liveliness monitoring
+            .AddCheck<CpuHealthCheck>(CpuHealthCheck.Name)
             .AddCheck<MemoryHealthCheck>(MemoryHealthCheck.Name)
-            .AddCheck<SuccessHealthCheck>(SuccessHealthCheck.Name);
+            .AddCheck<SuccessRateHealthCheck>(SuccessRateHealthCheck.Name);
     })
     .Build();
 await host.RunAsync();

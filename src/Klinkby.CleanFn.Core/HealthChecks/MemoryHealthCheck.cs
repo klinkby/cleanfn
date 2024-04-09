@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Klinkby.CleanFn.Core.HealthChecks;
 
 /// <summary>
 ///     A health check that reports the current memory usage.
+///     Memory pressure over 80% is considered degraded, over 90% unhealthy.
 /// </summary>
 public class MemoryHealthCheck : IHealthCheck
 {
@@ -39,7 +39,6 @@ public class MemoryHealthCheck : IHealthCheck
             >= Percent80 => HealthStatus.Degraded,
             _ => HealthStatus.Healthy
         };
-        var result = new HealthCheckResult(status);
-        return Task.FromResult(result);
+        return Task.FromResult(new HealthCheckResult(status));
     }
 }
