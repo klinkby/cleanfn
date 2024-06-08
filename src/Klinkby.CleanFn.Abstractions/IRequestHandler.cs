@@ -1,4 +1,6 @@
-﻿namespace Klinkby.CleanFn.Abstractions;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Klinkby.CleanFn.Abstractions;
 
 /// <summary>
 ///     Base interface for request parameters.
@@ -8,6 +10,7 @@
 ///     use <see cref="IRequest{TResponse}" />
 ///     or <see cref="IRequest" /> instead.
 /// </remarks>
+[SuppressMessage("Design", "CA1040:Avoid empty interfaces", Justification = "Base for IRequestHandler types")]
 public interface IRequestHandlerBase;
 
 /// <summary>

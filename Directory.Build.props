@@ -13,4 +13,12 @@
     <!-- enable errors for high, critical vulnerabilities -->
     <WarningsAsErrors>NU1903;NU1904</WarningsAsErrors>
   </PropertyGroup>
+
+  <PropertyGroup Label="Analyzer settings">
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest-all</AnalysisLevel>
+  </PropertyGroup>
 </Project>
